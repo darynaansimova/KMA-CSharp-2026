@@ -8,15 +8,14 @@ namespace SubjectsManager.DBModels
     /// </summary>
     public class SubjectDBModel
     {
-        // Ідентифікатор можна встановити лише при ініціалізації
-        public Guid Id { get; init; }
+        public Guid Id { get;}
         public string Name { get; set; }
         public int EctsCredits { get; set; }
         public KnowledgeArea AreaOfKnowledge { get; set; }
 
-        public SubjectDBModel(Guid id, string name, int ectsCredits, KnowledgeArea areaOfKnowledge)
+        public SubjectDBModel(string name, int ectsCredits, KnowledgeArea areaOfKnowledge)
         {
-            Id = id;
+            Id = Guid.NewGuid();
             Name = name;
             EctsCredits = ectsCredits;
             AreaOfKnowledge = areaOfKnowledge;

@@ -9,7 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="..\SubjectsManager.CommonComponents\SubjectsManager.CommonComponents.csproj" />
     <ProjectReference Include="..\SubjectsManager.DBModels\SubjectsManager.DBModels.csproj" />
-    <ProjectReference Include="..\SubjectsManager.UIModels\SubjectsManager.UIModels.csproj" />
   </ItemGroup>
 
 </Project>

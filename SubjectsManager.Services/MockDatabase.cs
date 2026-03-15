@@ -16,14 +16,11 @@ namespace SubjectsManager.Services
 
         static MockDatabase()
         {
-            var s1Id = Guid.NewGuid();
-            var s2Id = Guid.NewGuid();
-            var s3Id = Guid.NewGuid();
 
             // 3 екземпляри сутності 1-го рівня з різними даними і різними значеннями перечислення
-            Subjects.Add(new SubjectDBModel(s1Id, "Algorithms and Data Structures", 6, KnowledgeArea.Programming));
-            Subjects.Add(new SubjectDBModel(s2Id, "Information Retrieval", 5, KnowledgeArea.Engineering));
-            Subjects.Add(new SubjectDBModel(s3Id, "English for IT", 3, KnowledgeArea.Humanities)); // Предмет без занять
+            Subjects.Add(new SubjectDBModel("Algorithms and Data Structures", 6, KnowledgeArea.Programming));
+            Subjects.Add(new SubjectDBModel("Information Retrieval", 5, KnowledgeArea.Engineering));
+            Subjects.Add(new SubjectDBModel("English for IT", 3, KnowledgeArea.Humanities)); // Предмет без занять
 
             // --- Наповнення занять для першого предмету  ---
             var algoTopics = new (string Topic, LessonType Type)[]
@@ -48,8 +45,7 @@ namespace SubjectsManager.Services
                 TimeSpan endTime = startTime.Add(new TimeSpan(1, 20, 0)); // Тривалість пари 1 год 20 хв
 
                 Lessons.Add(new LessonDBModel(
-                    Guid.NewGuid(),
-                    s1Id,
+                    Subjects[0].Id,
                     baseDateAlgo.AddDays(i * 2), // Пари через день
                     startTime,
                     endTime,
@@ -77,8 +73,7 @@ namespace SubjectsManager.Services
                 TimeSpan endTime = new TimeSpan(14, 50, 0);
 
                 Lessons.Add(new LessonDBModel(
-                    Guid.NewGuid(),
-                    s2Id,
+                    Subjects[1].Id,
                     baseDateIr.AddDays(i * 7), // Пари раз на тиждень
                     startTime,
                     endTime,

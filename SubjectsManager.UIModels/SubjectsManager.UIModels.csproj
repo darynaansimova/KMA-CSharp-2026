@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SubjectsManager.CommonComponents\SubjectsManager.CommonComponents.csproj" />
+    <ProjectReference Include="..\SubjectsManager.DBModels\SubjectsManager.DBModels.csproj" />
+    <ProjectReference Include="..\SubjectsManager.Services\SubjectsManager.Services.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:SubjectsManager.UIModels;assembly=SubjectsManager.UIModels"
+             x:Class="SubjectsManager.Pages.LessonDetailsPage"
+             x:DataType="models:LessonUIModel"
+             Title="Lesson Details">
+    <ScrollView>
+        <VerticalStackLayout Padding="10,20" Spacing="10">
+            <Label
+                Text="Date"/>
+            <Label
+                Text="{Binding Date, StringFormat='{}{0:dd\\.MM\\.yyyy}'}"
+                Margin="10,0"></Label>
+            <Label
+                Text="Start time"/>
+            <Label
+                Text="{Binding StartTime, StringFormat='{}{0:hh\\:mm}'}"
+                Margin="10,0"></Label>
+            <Label
+                Text="End time"/>
+            <Label
+                Text="{Binding EndTime, StringFormat='{}{0:hh\\:mm}'}"
+                Margin="10,0"></Label>
+            <Label
+                Text="Topic"/>
+            <Label
+                Text="{Binding Topic}"
+                Margin="10,0"></Label>
+            <Label
+                Text="Type"/>
+            <Label
+                Text="{Binding Type, Converter={StaticResource EnumToDisplayName}}"
+                Margin="10,0"></Label>
+            <Label
+                Text="Duration"/>
+            <Label
+                Text="{Binding Duration, StringFormat='{}{0:hh} h {0:mm} m'}"
+                Margin="10,0"></Label>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

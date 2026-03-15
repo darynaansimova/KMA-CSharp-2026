@@ -1,39 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SubjectsManager.UIModels;
+using SubjectsManager.DBModels;
 
 namespace SubjectsManager.Services
 {
     /// <summary>
-    /// Сервіс для роботи зі сховищем. Дістає DBModels і перетворює їх на UIModels.
+    /// Реалізація сервісу зберігання даних, що працює з імітацією бази даних (MockDatabase).
+    /// Завантажує дані ліниво при першому зверненні.
     /// </summary>
-    public class StorageService
+    public class StorageService : IStorageService
     {
-        public List<SubjectUIModel> GetAllSubjects()
+        private List<SubjectDBModel> _subjects;
+        private List<LessonDBModel> _lessons;
+
+        /// <summary>
+        /// Завантажує дані з MockDatabase, якщо вони ще не завантажені.
+        /// </summary>
+        private void LoadData()
         {
-            var result = new List<SubjectUIModel>();
-            foreach (var dbSub in MockDatabase.Subjects)
-            {
-                result.Add(new SubjectUIModel(dbSub.Id, dbSub.Name, dbSub.EctsCredits, dbSub.AreaOfKnowledge));
-            }
-            return result;
+            if (_subjects != null && _lessons != null)
+                return;
+
+            // Копіюємо дані зі статичного джерела у внутрішні списки
+            _subjects = MockDatabase.Subjects.ToList();
+            _lessons = MockDatabase.Lessons.ToList();
         }
 
-        public SubjectUIModel GetSubjectWithLessons(Guid subjectId)
+        /// <summary>
+        /// Отримує всі уроки для заданого предмету.
+        /// </summary>
+        /// <param name="subjectId">Ідентифікатор предмету.</param>
+        /// <returns>Колекція уроків, що належать вказаному предмету.</returns>
+        public IEnumerable<LessonDBModel> GetLessons(Guid subjectId)
         {
-            var dbSub = MockDatabase.Subjects.FirstOrDefault(s => s.Id == subjectId);
-            if (dbSub == null) return null;
+            LoadData(); // Гарантуємо, що дані завантажені
+            return _lessons.Where(lesson => lesson.SubjectId == subjectId);
+        }
 
-            var uiSub = new SubjectUIModel(dbSub.Id, dbSub.Name, dbSub.EctsCredits, dbSub.AreaOfKnowledge);
-
-            var dbLessons = MockDatabase.Lessons.Where(l => l.SubjectId == subjectId).ToList();
-            foreach (var dbL in dbLessons)
-            {
-                uiSub.Lessons.Add(new LessonUIModel(dbL.Id, dbL.Date, dbL.StartTime, dbL.EndTime, dbL.Topic, dbL.Type));
-            }
-
-            return uiSub;
+        /// <summary>
+        /// Отримує всі предмети зі сховища.
+        /// </summary>
+        /// <returns>Колекція всіх предметів.</returns>
+        public IEnumerable<SubjectDBModel> GetAllSubjects()
+        {
+            LoadData(); // Гарантуємо, що дані завантажені
+            return _subjects;
         }
     }
 }

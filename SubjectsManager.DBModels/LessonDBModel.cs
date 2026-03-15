@@ -17,9 +17,9 @@ namespace SubjectsManager.DBModels
         public string Topic { get; set; }
         public LessonType Type { get; set; }
 
-        public LessonDBModel(Guid id, Guid subjectId, DateTime date, TimeSpan startTime, TimeSpan endTime, string topic, LessonType type)
+        public LessonDBModel(Guid subjectId, DateTime date, TimeSpan startTime, TimeSpan endTime, string topic, LessonType type)
         {
-            Id = id;
+            Id = Guid.NewGuid();
             SubjectId = subjectId;
             Date = date;
             StartTime = startTime;
