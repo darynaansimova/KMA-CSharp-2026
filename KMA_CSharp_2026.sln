@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubjectsManager.ConsoleApp"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubjectsManager", "SubjectsManager\SubjectsManager.csproj", "{12793ED0-0374-4A89-AE19-7C4A6918CE1D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubjectsManager.Repositories", "SubjectsManager.Repositories\SubjectsManager.Repositories.csproj", "{055F8EAE-625D-486E-9310-0144D0D1D79B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubjectsManager.Storage", "SubjectsManager.Storage\SubjectsManager.Storage.csproj", "{9E000D7E-7897-45BB-835C-FC7D4DBE86A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +50,14 @@ Global
 		{12793ED0-0374-4A89-AE19-7C4A6918CE1D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{12793ED0-0374-4A89-AE19-7C4A6918CE1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12793ED0-0374-4A89-AE19-7C4A6918CE1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{055F8EAE-625D-486E-9310-0144D0D1D79B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{055F8EAE-625D-486E-9310-0144D0D1D79B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{055F8EAE-625D-486E-9310-0144D0D1D79B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{055F8EAE-625D-486E-9310-0144D0D1D79B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E000D7E-7897-45BB-835C-FC7D4DBE86A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E000D7E-7897-45BB-835C-FC7D4DBE86A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E000D7E-7897-45BB-835C-FC7D4DBE86A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E000D7E-7897-45BB-835C-FC7D4DBE86A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
