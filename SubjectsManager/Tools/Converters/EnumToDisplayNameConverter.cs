@@ -22,7 +22,7 @@ namespace SubjectsManager.Tools.Converters
         /// <param name="parameter">Додатковий параметр (не використовується).</param>
         /// <param name="culture">Культура для конвертації (не використовується).</param>
         /// <returns>Відображуване ім'я enum або порожній рядок.</returns>
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object? value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is null)
                 return string.Empty;
@@ -38,7 +38,7 @@ namespace SubjectsManager.Tools.Converters
         /// Зворотна конвертація не підтримується, оскільки це конвертер лише для читання.
         /// </summary>
         /// <exception cref="NotSupportedException">Завжди викидається.</exception>
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
+        public object ConvertBack(object? value, Type targetType, object parameter, CultureInfo culture) =>
             throw new NotSupportedException();
     }
 }
