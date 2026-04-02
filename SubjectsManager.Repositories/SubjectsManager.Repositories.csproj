@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SubjectsManager.DBModels\SubjectsManager.DBModels.csproj" />
+    <ProjectReference Include="..\SubjectsManager.Storage\SubjectsManager.Storage.csproj" />
+  </ItemGroup>
+
 </Project>
