@@ -11,14 +11,14 @@ namespace SubjectsManager.DBModels
         public Guid Id { get;}
         public string Name { get; set; }
         public int EctsCredits { get; set; }
-        public KnowledgeArea AreaOfKnowledge { get; set; }
+        public KnowledgeArea KnowledgeArea { get; set; }
 
-        public SubjectDBModel(string name, int ectsCredits, KnowledgeArea areaOfKnowledge)
+        public SubjectDBModel(Guid id, string name, int ectsCredits, KnowledgeArea knowledgeArea)
         {
-            Id = Guid.NewGuid();
+            Id = id;
             Name = name;
             EctsCredits = ectsCredits;
-            AreaOfKnowledge = areaOfKnowledge;
+            KnowledgeArea = knowledgeArea;
         }
     }
 }
