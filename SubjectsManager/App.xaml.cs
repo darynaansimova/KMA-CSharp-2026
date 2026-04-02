@@ -1,4 +1,6 @@
-﻿namespace SubjectsManager
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace SubjectsManager
 {
     public partial class App : Application
     {

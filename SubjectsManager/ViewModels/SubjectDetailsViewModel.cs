@@ -19,9 +19,9 @@ namespace SubjectsManager.ViewModels
         private readonly ILessonService _lessonService;
 
         [ObservableProperty]
-        public SubjectDetailsDTO CurrentSubject { get; set; }
+        private SubjectDetailsDTO _currentSubject;
         [ObservableProperty]
-        public ObservableCollection<LessonListDTO> Lessons { get; set; }
+        private ObservableCollection<LessonListDTO> _lessons;
 
         public SubjectDetailsViewModel(ISubjectService subjectService, ILessonService lessonService)
         {

@@ -18,7 +18,6 @@ namespace SubjectsManager.Repositories
 
         public IEnumerable<LessonDBModel> GetLessonsBySubject(Guid id)
         {
-            throw new NotImplementedException();
             return _storageContext.GetLessonsBySubject(id);
         }
 

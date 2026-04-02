@@ -22,7 +22,7 @@
                     Text="{Binding CurrentSubject.KnowledgeArea, Converter={StaticResource EnumToDisplayName}}"
                     HorizontalOptions="Center"></Label>
                 <Label
-                    Text="{Binding CurrentSubject.EctsCredits}"
+                    Text="{Binding CurrentSubject.EctsCredits, StringFormat='ECTS: {0}'}"
                     HorizontalOptions="Center"/>
             </VerticalStackLayout>
         </Border>
@@ -53,7 +53,7 @@
                                         Style="{StaticResource SubHeadline}">
                                     <Label.Text>
                                         <MultiBinding
-                                                StringFormat="{}{0} {1} {2}">
+                                                StringFormat="{}{0:dd\.MM\.yyyy}, {1:hh\:mm} - {2:hh\:mm}">
                                             <Binding Path="Date"></Binding>
                                             <Binding Path="StartTime"></Binding>
                                             <Binding Path="EndTime"></Binding>
@@ -61,7 +61,7 @@
                                     </Label.Text>
                                 </Label>
                                 <Label 
-                                        Text="{Binding Type, Converter={StaticResource EnumToDisplayName}, StringFormat='Type: {0}'}"
+                                        Text="{Binding Type, Converter={StaticResource EnumToDisplayName}, StringFormat='{}{0}'}"
                                         HorizontalOptions="Center"></Label>
                             </VerticalStackLayout>
                         </Border>

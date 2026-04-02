@@ -25,7 +25,7 @@
                             Style="{StaticResource SubHeadline}">
                             <Label.Text>
                                 <MultiBinding
-                                    StringFormat="{}{0} (Staff: {1})">
+                                    StringFormat="{}{0} (Lessons: {1})">
                                     <Binding Path="Name"></Binding>
                                     <Binding Path="LessonsCount"></Binding>
                                 </MultiBinding>

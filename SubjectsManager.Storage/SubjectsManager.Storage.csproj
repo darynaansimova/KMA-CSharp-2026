@@ -1,17 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Maui.Essentials" Version="10.0.51" />
-    <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\SubjectsManager.CommonComponents\SubjectsManager.CommonComponents.csproj" />
     <ProjectReference Include="..\SubjectsManager.DBModels\SubjectsManager.DBModels.csproj" />
   </ItemGroup>
 
