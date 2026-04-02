@@ -36,7 +36,7 @@ namespace SubjectsManager.UIModels
             _dbModel = dbModel ?? throw new ArgumentNullException(nameof(dbModel));
 
             Name = dbModel.Name;
-            KnowledgeArea = dbModel.AreaOfKnowledge;
+            KnowledgeArea = dbModel.KnowledgeArea;
             EctsCredits = dbModel.EctsCredits;
         }
 
@@ -45,12 +45,12 @@ namespace SubjectsManager.UIModels
             if (_dbModel != null)
             {
                 _dbModel.Name = Name;
-                _dbModel.AreaOfKnowledge = KnowledgeArea;
+                _dbModel.KnowledgeArea = KnowledgeArea;
                 _dbModel.EctsCredits = EctsCredits;
             }
             else
             {
-                _dbModel = new SubjectDBModel(Name, EctsCredits, KnowledgeArea);
+                _dbModel = new SubjectDBModel(Guid.NewGuid(), Name, EctsCredits, KnowledgeArea);
             }
         }
 

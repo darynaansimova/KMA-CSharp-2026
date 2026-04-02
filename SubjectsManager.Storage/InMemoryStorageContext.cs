@@ -78,6 +78,7 @@ namespace SubjectsManager.Storage
                 TimeSpan endTime = new TimeSpan(14, 50, 0);
 
                 _lessons.Add(new LessonRecord(
+                    Guid.NewGuid(),
                     informRetrieval.Id,
                     baseDateIr.AddDays(i * 7), // Пари раз на тиждень
                     startTime,

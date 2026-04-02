@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
-using SubjectsManager.Services;
 using SubjectsManager.Pages;
+using SubjectsManager.Repositories;
+using SubjectsManager.Services;
+using SubjectsManager.Storage;
+using SubjectsManager.ViewModels;
 
 namespace SubjectsManager
 {
@@ -18,26 +21,29 @@ namespace SubjectsManager
         {
             var builder = MauiApp.CreateBuilder();
             builder
-                .UseMauiApp<App>() // Вказуємо головний клас додатку
+                .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {
-                    // Додаємо шрифти, які будуть доступні в додатку
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            // Реєструємо сервіси у контейнері залежностей
-            builder.Services.AddSingleton<IStorageService, StorageService>(); // Сховище даних як синглтон
+#if DEBUG
+            builder.Logging.AddDebug();
+#endif
+            builder.Services.AddSingleton<IStorageContext, InMemoryStorageContext>();
+            builder.Services.AddSingleton<ISubjectRepository, SubjectRepository>();
+            builder.Services.AddSingleton<ILessonRepository, LessonRepository>();
+            builder.Services.AddSingleton<ISubjectService, SubjectService>();
+            builder.Services.AddSingleton<ILessonService, LessonService>();
 
-            // Реєструємо сторінки як транзієнтні (новий екземпляр при кожному запиті)
-            builder.Services.AddTransient<SubjectsPage>();
+            builder.Services.AddSingleton<SubjectsPage>();
             builder.Services.AddTransient<SubjectDetailsPage>();
             builder.Services.AddTransient<LessonDetailsPage>();
 
-#if DEBUG
-            // Додаємо логування для відлагодження (тільки у Debug збірці)
-            builder.Logging.AddDebug();
-#endif
+            builder.Services.AddSingleton<SubjectsViewModel>();
+            builder.Services.AddTransient<SubjectDetailsViewModel>();
+            builder.Services.AddTransient<LessonDetailsViewModel>();
 
             return builder.Build();
         }

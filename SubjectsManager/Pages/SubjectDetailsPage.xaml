@@ -1,71 +1,73 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:SubjectsManager.Pages"
+             xmlns:models="clr-namespace:SubjectsManager.DTOModels.Lesson;assembly=SubjectsManager.DTOModels"
+             xmlns:vms="clr-namespace:SubjectsManager.ViewModels"
              x:Class="SubjectsManager.Pages.SubjectDetailsPage"
-             xmlns:models="clr-namespace:SubjectsManager.UIModels;assembly=SubjectsManager.UIModels"
-             x:DataType="models:SubjectUIModel"
+             x:DataType="vms:SubjectDetailsViewModel"
              Title="Subject Details">
-    <ScrollView>
-        <Grid RowDefinitions="Auto,*">
-            <Border 
-                Grid.Row="0"
-                Stroke="Blue" 
-                Padding="10" 
-                Margin="10,10">
-                <VerticalStackLayout>
-                    <Label
-                        Style="{StaticResource SubHeadline}">
-                        <Label.Text>
-                            <MultiBinding
-                                StringFormat="{}{0} (ECTS: {1}, Total Duration: {2:hh} h {2:mm} m)">
-                                <Binding Path="Name"></Binding>
-                                <Binding Path="EctsCredits"></Binding>
-                                <Binding Path="TotalDuration"></Binding>
-                            </MultiBinding>
-                        </Label.Text>
-                    </Label>
-                    <Label 
-                        Text="{Binding KnowledgeArea, Converter={StaticResource EnumToDisplayName}}"
-                        HorizontalOptions="Center"></Label>
-                </VerticalStackLayout>
-            </Border>
-            <Border 
-                Grid.Row="1"
-                VerticalOptions="Fill" 
-                Padding="0" 
-                Margin="0">
-                <CollectionView
-                    ItemsSource="{Binding Lessons}"
-                    Margin="10"
-                    SelectionMode="Single"
-                    SelectionChanged="LessonSelected">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate
-                                x:DataType="models:LessonUIModel">
-                            <Border
-                                    Stroke="Magenta"
-                                    Padding="10"
-                                    Margin="0,10">
-                                <VerticalStackLayout>
-                                    <Label
-                                            Style="{StaticResource SubHeadline}">
-                                        <Label.Text>
-                                            <MultiBinding
-                                                    StringFormat="{}{0:dd.MM.yyyy} - {1}">
-                                                <Binding Path="Date"></Binding>
-                                                <Binding Path="Topic"></Binding>
-                                            </MultiBinding>
-                                        </Label.Text>
-                                    </Label>
-                                    <Label 
-                                            Text="{Binding Type, Converter={StaticResource EnumToDisplayName}, StringFormat='{0}'}"
-                                            HorizontalOptions="Center"></Label>
-                                </VerticalStackLayout>
-                            </Border>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </Border>
-        </Grid>
-    </ScrollView>
+    <Grid RowDefinitions="Auto,*">
+        <Border 
+            Grid.Row="0"
+            Stroke="Blue" 
+            Padding="10" 
+            Margin="0,10">
+            <VerticalStackLayout>
+                <Label
+                    Style="{StaticResource Headline}"
+                    Text="{Binding CurrentSubject.Name}"/>
+                <Label
+                    Style="{StaticResource SubHeadline}"
+                    Text="{Binding CurrentSubject.KnowledgeArea, Converter={StaticResource EnumToDisplayName}}"
+                    HorizontalOptions="Center"></Label>
+                <Label
+                    Text="{Binding CurrentSubject.EctsCredits}"
+                    HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+        </Border>
+        <Border 
+            Grid.Row="1"
+            VerticalOptions="Fill" 
+            Stroke="Blue" 
+            Padding="10" 
+            Margin="0,10">
+            <CollectionView
+                ItemsSource="{Binding Lessons}"
+                Margin="10"
+                SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate
+                            x:DataType="models:LessonListDTO">
+                        <Border
+                            Stroke="Magenta"
+                            Padding="10"
+                            Margin="0,10">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vms:SubjectDetailsViewModel}}, Path=LoadLessonCommand}" 
+                                    CommandParameter="{Binding Id}"/>
+                            </Border.GestureRecognizers>
+                            <VerticalStackLayout>
+                                <Label
+                                        Style="{StaticResource SubHeadline}">
+                                    <Label.Text>
+                                        <MultiBinding
+                                                StringFormat="{}{0} {1} {2}">
+                                            <Binding Path="Date"></Binding>
+                                            <Binding Path="StartTime"></Binding>
+                                            <Binding Path="EndTime"></Binding>
+                                        </MultiBinding>
+                                    </Label.Text>
+                                </Label>
+                                <Label 
+                                        Text="{Binding Type, Converter={StaticResource EnumToDisplayName}, StringFormat='Type: {0}'}"
+                                        HorizontalOptions="Center"></Label>
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Border>
+    </Grid>
 </ContentPage>

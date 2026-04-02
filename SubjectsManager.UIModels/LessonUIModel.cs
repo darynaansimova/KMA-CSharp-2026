@@ -65,7 +65,7 @@ namespace SubjectsManager.UIModels
             }
             else
             {
-                _dbModel = new LessonDBModel(SubjectId, Date, StartTime, EndTime, Topic, Type);
+                _dbModel = new LessonDBModel(Guid.NewGuid(), SubjectId, Date, StartTime, EndTime, Topic, Type);
             }
         }
 

@@ -1,40 +1,39 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-              xmlns:pages="clr-namespace:SubjectsManager.Pages"
-             xmlns:models="clr-namespace:SubjectsManager.UIModels;assembly=SubjectsManager.UIModels"
+             xmlns:pages="clr-namespace:SubjectsManager.Pages"
+             xmlns:models="clr-namespace:SubjectsManager.DTOModels.Subject;assembly=SubjectsManager.DTOModels"
+             xmlns:vms="clr-namespace:SubjectsManager.ViewModels"
              x:Class="SubjectsManager.Pages.SubjectsPage"             
-             x:DataType="pages:SubjectsPage"
+             x:DataType="vms:SubjectsViewModel"
              Title="Subjects">
     <CollectionView
         ItemsSource="{Binding Path=Subjects}"
         Margin="10"
         SelectionMode="Single"
-        SelectionChanged="SubjectSelected">
+        SelectedItem="{Binding CurrentSubject}"
+        SelectionChangedCommand="{Binding SubjectSelectedCommand}">
         <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="models:SubjectUIModel">
+            <DataTemplate
+                x:DataType="models:SubjectListDTO">
                 <Border
                     Stroke="Magenta"
                     Padding="10"
-                    Margin="0,10">      
-                    <VisualStateManager.VisualStateGroups>
-                        <VisualStateGroup Name="CommonStates">
-                            <VisualState Name="Normal" />
-                            <VisualState Name="Selected">
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="LightPink" />
-                                </VisualState.Setters>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateManager.VisualStateGroups>
-
+                    Margin="0,10">
                     <VerticalStackLayout>
                         <Label
-                            Text="{Binding Name}"
-                            Style="{StaticResource SubHeadline}" />
+                            Style="{StaticResource SubHeadline}">
+                            <Label.Text>
+                                <MultiBinding
+                                    StringFormat="{}{0} (Staff: {1})">
+                                    <Binding Path="Name"></Binding>
+                                    <Binding Path="LessonsCount"></Binding>
+                                </MultiBinding>
+                            </Label.Text>
+                        </Label>
                         <Label 
                             Text="{Binding KnowledgeArea, Converter={StaticResource EnumToDisplayName}}"
-                            HorizontalOptions="Center" />   
+                            HorizontalOptions="Center"></Label>
                     </VerticalStackLayout>
                 </Border>
             </DataTemplate>
