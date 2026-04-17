@@ -8,7 +8,7 @@ namespace SubjectsManager.DBModels
     /// </summary>
     public class LessonDBModel
     {
-        public Guid Id { get; init; }
+        public Guid Id { get; set; }
         // Зв'язок з предметом реалізовано через зовнішній ключ, без прямого посилання на об'єкт
         public Guid SubjectId { get; init; }
         public DateTime Date { get; set; }
@@ -16,6 +16,16 @@ namespace SubjectsManager.DBModels
         public TimeSpan EndTime { get; set; }
         public string Topic { get; set; }
         public LessonType Type { get; set; }
+
+        public LessonDBModel()
+        {
+
+        }
+
+        public LessonDBModel(Guid subjectId, DateTime date, TimeSpan startTime, TimeSpan endTime, string topic, LessonType type) : this(Guid.NewGuid(), subjectId, date, startTime, endTime, topic, type)
+        {
+
+        }
 
         public LessonDBModel(Guid id, Guid subjectId, DateTime date, TimeSpan startTime, TimeSpan endTime, string topic, LessonType type)
         {

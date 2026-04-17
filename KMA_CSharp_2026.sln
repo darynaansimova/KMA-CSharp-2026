@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubjectsManager.CommonCompo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubjectsManager.Services", "SubjectsManager.Services\SubjectsManager.Services.csproj", "{A4749888-D11B-4ED9-861D-C9B09744DDE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubjectsManager.ConsoleApp", "SubjectsManager.ConsoleApp\SubjectsManager.ConsoleApp.csproj", "{0A89D503-1C4F-4847-BF84-E375181F82EB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubjectsManager", "SubjectsManager\SubjectsManager.csproj", "{12793ED0-0374-4A89-AE19-7C4A6918CE1D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubjectsManager.Repositories", "SubjectsManager.Repositories\SubjectsManager.Repositories.csproj", "{055F8EAE-625D-486E-9310-0144D0D1D79B}"
@@ -42,10 +40,6 @@ Global
 		{A4749888-D11B-4ED9-861D-C9B09744DDE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4749888-D11B-4ED9-861D-C9B09744DDE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4749888-D11B-4ED9-861D-C9B09744DDE0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0A89D503-1C4F-4847-BF84-E375181F82EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0A89D503-1C4F-4847-BF84-E375181F82EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0A89D503-1C4F-4847-BF84-E375181F82EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0A89D503-1C4F-4847-BF84-E375181F82EB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{12793ED0-0374-4A89-AE19-7C4A6918CE1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{12793ED0-0374-4A89-AE19-7C4A6918CE1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12793ED0-0374-4A89-AE19-7C4A6918CE1D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU

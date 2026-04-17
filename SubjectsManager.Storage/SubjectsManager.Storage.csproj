@@ -7,7 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SubjectsManager.CommonComponents\SubjectsManager.CommonComponents.csproj" />
+    <PackageReference Include="Microsoft.Maui.Essentials" Version="9.0.120" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SubjectsManager.DBModels\SubjectsManager.DBModels.csproj" />
   </ItemGroup>
 

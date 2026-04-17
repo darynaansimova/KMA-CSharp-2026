@@ -8,10 +8,20 @@ namespace SubjectsManager.DBModels
     /// </summary>
     public class SubjectDBModel
     {
-        public Guid Id { get;}
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public int EctsCredits { get; set; }
         public KnowledgeArea KnowledgeArea { get; set; }
+
+        public SubjectDBModel()
+        {
+
+        }
+
+        public SubjectDBModel(string name, int ectsCredits, KnowledgeArea knowledgeArea) : this(Guid.NewGuid(), name, ectsCredits, knowledgeArea)
+        {
+
+        }
 
         public SubjectDBModel(Guid id, string name, int ectsCredits, KnowledgeArea knowledgeArea)
         {

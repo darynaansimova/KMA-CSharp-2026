@@ -9,10 +9,12 @@ namespace SubjectsManager.Storage
 {
     public interface IStorageContext
     {
-        IEnumerable<SubjectDBModel> GetSubjects();
-        SubjectDBModel GetSubject(Guid subjectId);
-        IEnumerable<LessonDBModel> GetLessonsBySubject(Guid subjectId);
-        LessonDBModel GetLesson(Guid lessonId);
-        int GetLessonsCountBySubject(Guid subjectid);
+        IAsyncEnumerable<SubjectDBModel> GetSubjectsAsync();
+        Task<SubjectDBModel> GetSubjectAsync(Guid subjectId);
+        Task<IEnumerable<LessonDBModel>> GetLessonsBySubjectAsync(Guid subjectId);
+        Task<LessonDBModel> GetLessonAsync(Guid lessonId);
+        Task<int> GetLessonsCountBySubjectAsync(Guid subjectid);
+        Task SaveLessonAsync(LessonDBModel lesson);
+        Task DeleteLessonAsync(Guid lessonId);
     }
 }

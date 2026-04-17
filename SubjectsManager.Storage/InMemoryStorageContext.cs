@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using SubjectsManager.CommonComponents;
 using SubjectsManager.DBModels;
@@ -10,7 +11,6 @@ namespace SubjectsManager.Storage
 {
     public class InMemoryStorageContext : IStorageContext
     {
-
         private record class SubjectRecord(Guid Id, string Name, KnowledgeArea KnowledgeArea, int EctsCredits);
         private record class LessonRecord(Guid Id, Guid SubjectId, DateTime Date, TimeSpan StartTime, TimeSpan EndTime, string Topic, LessonType Type);
 
@@ -26,6 +26,7 @@ namespace SubjectsManager.Storage
             _subjects.Add(algsAndDataStr);
             _subjects.Add(informRetrieval);
             _subjects.Add(engForIT);
+
             // --- Наповнення занять для першого предмету  ---
             var algoTopics = new (string Topic, LessonType Type)[]
             {
@@ -89,34 +90,80 @@ namespace SubjectsManager.Storage
         }
         #endregion
 
-        public IEnumerable<SubjectDBModel> GetSubjects()
+        public async IAsyncEnumerable<SubjectDBModel> GetSubjectsAsync()
         {
             foreach (var subject in _subjects)
             {
+                await Task.Delay(500);
                 yield return new SubjectDBModel(subject.Id, subject.Name, subject.EctsCredits, subject.KnowledgeArea);
             }
         }
 
-        public IEnumerable<LessonDBModel> GetLessonsBySubject(Guid subjectId)
+        public Task<SubjectDBModel> GetSubjectAsync(Guid subjectId)
         {
-            return _lessons.Where(lesson => lesson.SubjectId == subjectId).Select(lesson => new LessonDBModel(lesson.Id, lesson.SubjectId, lesson.Date, lesson.StartTime, lesson.EndTime, lesson.Topic, lesson.Type));
+            return Task.Run(() =>
+            {
+                Thread.Sleep(2000);
+                var subject = _subjects.FirstOrDefault(s => s.Id == subjectId);
+                return subject is null ? null : new SubjectDBModel(subject.Id, subject.Name, subject.EctsCredits, subject.KnowledgeArea);
+            });
         }
 
-        public int GetLessonsCountBySubject(Guid id)
+        public Task<IEnumerable<LessonDBModel>> GetLessonsBySubjectAsync(Guid subjectId)
         {
-            return _lessons.Count(lesson => lesson.SubjectId == id);
+            return Task.Run(() =>
+            {
+                Thread.Sleep(1000);
+                return _lessons.Where(lesson => lesson.SubjectId == subjectId)
+                               .Select(lesson => new LessonDBModel(lesson.Id, lesson.SubjectId, lesson.Date, lesson.StartTime, lesson.EndTime, lesson.Topic, lesson.Type));
+            });
         }
 
-        public SubjectDBModel GetSubject(Guid subjectGuid)
+        public Task<LessonDBModel> GetLessonAsync(Guid lessonId)
         {
-            var subject = _subjects.FirstOrDefault(subject => subject.Id == subjectGuid);
-            return subject is null ? null : new SubjectDBModel(subject.Id, subject.Name, subject.EctsCredits, subject.KnowledgeArea);
+            return Task.Run(() =>
+            {
+                Thread.Sleep(1000);
+                var lesson = _lessons.FirstOrDefault(l => l.Id == lessonId);
+                return lesson is null ? null : new LessonDBModel(lesson.Id, lesson.SubjectId, lesson.Date, lesson.StartTime, lesson.EndTime, lesson.Topic, lesson.Type);
+            });
         }
 
-        public LessonDBModel GetLesson(Guid lessonGuid)
+        public Task<int> GetLessonsCountBySubjectAsync(Guid subjectid)
         {
-            var lesson = _lessons.FirstOrDefault(lesson => lesson.Id == lessonGuid);
-            return lesson is null ? null : new LessonDBModel(lesson.Id, lesson.SubjectId, lesson.Date, lesson.StartTime, lesson.EndTime, lesson.Topic, lesson.Type);
+            return Task.Run(() =>
+            {
+                Thread.Sleep(500);
+                return _lessons.Count(lesson => lesson.SubjectId == subjectid);
+            });
+        }
+
+        public Task SaveLessonAsync(LessonDBModel lesson)
+        {
+            return Task.Run(() =>
+            {
+                Thread.Sleep(500);
+                var existing = _lessons.FirstOrDefault(l => l.Id == lesson.Id);
+                if (existing != null)
+                {
+                    _lessons.Remove(existing);
+                }
+
+                _lessons.Add(new LessonRecord(lesson.Id, lesson.SubjectId, lesson.Date, lesson.StartTime, lesson.EndTime, lesson.Topic, lesson.Type));
+            });
+        }
+
+        public Task DeleteLessonAsync(Guid lessonId)
+        {
+            return Task.Run(() =>
+            {
+                Thread.Sleep(500);
+                var existing = _lessons.FirstOrDefault(l => l.Id == lessonId);
+                if (existing != null)
+                {
+                    _lessons.Remove(existing);
+                }
+            });
         }
     }
 }
