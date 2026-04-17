@@ -7,6 +7,7 @@ using SubjectsManager.Services;
 
 namespace SubjectsManager.UIModels
 {
+    [Obsolete("This class was created for testing and learning purposes. It is no longer needed and will be removed in the future.")]
     public class SubjectUIModel
     {
         private SubjectDBModel _dbModel;

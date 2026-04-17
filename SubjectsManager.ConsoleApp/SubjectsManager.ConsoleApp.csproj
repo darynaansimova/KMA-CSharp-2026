@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SubjectsManager.Services\SubjectsManager.Services.csproj" />
-    <ProjectReference Include="..\SubjectsManager.UIModels\SubjectsManager.UIModels.csproj" />
   </ItemGroup>
 
 </Project>
