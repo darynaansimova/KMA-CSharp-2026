@@ -9,6 +9,7 @@ namespace SubjectsManager
             InitializeComponent();
             Routing.RegisterRoute($"{nameof(SubjectsPage)}/{nameof(SubjectDetailsPage)}", typeof(SubjectDetailsPage));
             Routing.RegisterRoute($"{nameof(SubjectsPage)}/{nameof(SubjectDetailsPage)}/{nameof(LessonDetailsPage)}", typeof(LessonDetailsPage));
+            Routing.RegisterRoute($"{nameof(SubjectsPage)}/{nameof(SubjectDetailsPage)}/{nameof(LessonCreatePage)}", typeof(LessonCreatePage));
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SubjectsManager.DBModels;
 using SubjectsManager.DTOModels.Subject;
 using SubjectsManager.Repositories;
 
@@ -19,19 +20,30 @@ namespace SubjectsManager.Services
             _lessonRepository = lessonRepository;
         }
 
-        public IEnumerable<SubjectListDTO> GetAllSubjects()
+        public async IAsyncEnumerable<SubjectListDTO> GetAllSubjectsAsync()
         {
-            foreach (var subject in _subjectRepository.GetSubjects())
+            await foreach (var subject in _subjectRepository.GetSubjectsAsync())
             {
-                var lessonsCount = _lessonRepository.GetLessonsBySubjectCount(subject.Id);
+                var lessonsCount = await _lessonRepository.GetLessonsCountBySubjectAsync(subject.Id);
                 yield return new SubjectListDTO(subject.Id, subject.Name, subject.KnowledgeArea, lessonsCount);
             }
         }
 
-        public SubjectDetailsDTO GetSubject(Guid subjectId)
+        public async Task<SubjectDetailsDTO> GetSubjectAsync(Guid subjectId)
         {
-            var subject = _subjectRepository.GetSubject(subjectId);
+            var subject = await _subjectRepository.GetSubjectAsync(subjectId);
             return new SubjectDetailsDTO(subject.Id, subject.Name, subject.KnowledgeArea, subject.EctsCredits);
+        }
+
+        public async Task CreateSubjectAsync(SubjectCreateDTO subjectCreateDTO)
+        {
+            var newSubject = new SubjectDBModel(subjectCreateDTO.Name, subjectCreateDTO.EctsCredits, subjectCreateDTO.KnowledgeArea);
+            await _subjectRepository.SaveSubjectAsync(newSubject);
+        }
+
+        public Task DeleteSubjectAsync(Guid subjectId)
+        {
+            return _subjectRepository.DeleteSubjectAsync(subjectId);
         }
     }
 }

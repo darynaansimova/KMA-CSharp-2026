@@ -6,8 +6,9 @@
              xmlns:vms="clr-namespace:SubjectsManager.ViewModels"
              x:Class="SubjectsManager.Pages.SubjectDetailsPage"
              x:DataType="vms:SubjectDetailsViewModel"
-             Title="Subject Details">
-    <Grid RowDefinitions="Auto,*">
+             Title="Subject Details"
+             IsEnabled="{Binding IsNotBusy}">
+    <Grid RowDefinitions="Auto,*,Auto">
         <Border 
             Grid.Row="0"
             Stroke="Blue" 
@@ -32,42 +33,78 @@
             Stroke="Blue" 
             Padding="10" 
             Margin="0,10">
-            <CollectionView
-                ItemsSource="{Binding Lessons}"
-                Margin="10"
-                SelectionMode="None">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate
+            <RefreshView 
+                Command="{Binding RefreshDataCommand}">
+                <CollectionView
+                    ItemsSource="{Binding Lessons}"
+                    Margin="10"
+                    SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate
                             x:DataType="models:LessonListDTO">
-                        <Border
-                            Stroke="Magenta"
-                            Padding="10"
-                            Margin="0,10">
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer 
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vms:SubjectDetailsViewModel}}, Path=LoadLessonCommand}" 
-                                    CommandParameter="{Binding Id}"/>
-                            </Border.GestureRecognizers>
-                            <VerticalStackLayout>
-                                <Label
-                                        Style="{StaticResource SubHeadline}">
-                                    <Label.Text>
-                                        <MultiBinding
-                                                StringFormat="{}{0:dd\.MM\.yyyy}, {1:hh\:mm} - {2:hh\:mm}">
-                                            <Binding Path="Date"></Binding>
-                                            <Binding Path="StartTime"></Binding>
-                                            <Binding Path="EndTime"></Binding>
-                                        </MultiBinding>
-                                    </Label.Text>
-                                </Label>
-                                <Label 
-                                        Text="{Binding Type, Converter={StaticResource EnumToDisplayName}, StringFormat='{}{0}'}"
-                                        HorizontalOptions="Center"></Label>
-                            </VerticalStackLayout>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItems Mode="Reveal">
+                                        <SwipeItem
+                                            Text="Delete"
+                                            BackgroundColor="Red"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vms:SubjectDetailsViewModel}}, Path=DeleteLessonCommand}" 
+                                            CommandParameter="{Binding .}"/>
+                                        <SwipeItem
+                                            Text="Edit"
+                                            BackgroundColor="Blue"/>
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+                                <Border
+                                    Stroke="Magenta"
+                                    Padding="10"
+                                    Margin="0,10">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vms:SubjectDetailsViewModel}}, Path=LoadLessonCommand}" 
+                                            CommandParameter="{Binding Id}"/>
+                                    </Border.GestureRecognizers>
+                                    <VerticalStackLayout>
+                                        <Label
+                                            Style="{StaticResource SubHeadline}">
+                                            <Label.Text>
+                                                <MultiBinding
+                                                    StringFormat="{}{0:dd\.MM\.yyyy}, {1:hh\:mm} - {2:hh\:mm}">
+                                                    <Binding Path="Date"></Binding>
+                                                    <Binding Path="StartTime"></Binding>
+                                                    <Binding Path="EndTime"></Binding>
+                                                </MultiBinding>
+                                            </Label.Text>
+                                        </Label>
+                                        <Label 
+                                            Text="{Binding Type, Converter={StaticResource EnumToDisplayName}, StringFormat='{}{0}'}"
+                                            HorizontalOptions="Center"></Label>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
         </Border>
+        <Button
+            Grid.Row="2"
+            Command="{Binding AddLessonCommand}"
+            Text="Create new Lesson"
+            Margin="10"
+            HorizontalOptions="Center"/>
+        <BoxView
+            IsVisible="{Binding IsBusy}"
+            BackgroundColor="Gray"
+            Opacity="0.2"
+            InputTransparent="False"
+            Grid.RowSpan="3"/>
+        <ActivityIndicator
+            Color="Magenta"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            Grid.RowSpan="3"/>
     </Grid>
 </ContentPage>

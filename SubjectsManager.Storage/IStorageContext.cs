@@ -16,5 +16,7 @@ namespace SubjectsManager.Storage
         Task<int> GetLessonsCountBySubjectAsync(Guid subjectid);
         Task SaveLessonAsync(LessonDBModel lesson);
         Task DeleteLessonAsync(Guid lessonId);
+        Task SaveSubjectAsync(SubjectDBModel subject);
+        Task DeleteSubjectAsync(Guid subjectId);
     }
 }

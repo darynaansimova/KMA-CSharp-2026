@@ -14,9 +14,10 @@ namespace SubjectsManager.Storage
         private const string DatabaseFileName = "lesson_manager.db3";
         private static readonly string DatabasePath = Path.Combine(FileSystem.AppDataDirectory, "DB storage", DatabaseFileName);
         private SQLiteAsyncConnection _databaseConnection;
-
         private async Task Init()
         {
+            System.Diagnostics.Debug.WriteLine($"\n\n=== MY DATABASE PATH: {DatabasePath} ===\n\n");
+
             if (_databaseConnection is not null)
                 return;
             bool isFirstLaunch = !File.Exists(DatabasePath);
@@ -76,12 +77,23 @@ namespace SubjectsManager.Storage
             return await _databaseConnection.Table<LessonDBModel>().CountAsync(l => l.SubjectId == subjectid);
         }
 
+        //TODO: Implement update and delete methods
         public Task SaveLessonAsync(LessonDBModel lesson)
         {
             throw new NotImplementedException();
         }
 
         public Task DeleteLessonAsync(Guid lessonId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SaveSubjectAsync(SubjectDBModel subject)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteSubjectAsync(Guid subjectId)
         {
             throw new NotImplementedException();
         }

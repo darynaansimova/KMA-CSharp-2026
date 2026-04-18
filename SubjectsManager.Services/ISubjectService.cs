@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SubjectsManager.DTOModels.Lesson;
 using SubjectsManager.DTOModels.Subject;
 
 namespace SubjectsManager.Services
 {
     public interface ISubjectService
     {
-        IEnumerable<SubjectListDTO> GetAllSubjects();
-        SubjectDetailsDTO GetSubject(Guid subjectId);
+        IAsyncEnumerable<SubjectListDTO> GetAllSubjectsAsync();
+        Task<SubjectDetailsDTO> GetSubjectAsync(Guid subjectId);
+        Task CreateSubjectAsync(SubjectCreateDTO subject);
+        Task DeleteSubjectAsync(Guid subjectId);
     }
 }

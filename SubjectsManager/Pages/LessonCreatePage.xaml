@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:SubjectsManager.Pages"
+             xmlns:models="clr-namespace:SubjectsManager.DTOModels.Lesson;assembly=SubjectsManager.DTOModels"
+             xmlns:vms="clr-namespace:SubjectsManager.ViewModels"
+             x:Class="SubjectsManager.Pages.LessonCreatePage"
+             x:DataType="vms:LessonCreateViewModel"
+             Title="Lesson Create Page"
+             IsEnabled="{Binding IsNotBusy}">
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="10,20" Spacing="10">
+                <Label
+                    Text="Date"/>
+                <DatePicker
+                    Date="{Binding Date}"></DatePicker>
+                <Label 
+                    Text="{Binding Errors[Date]}" 
+                    TextColor="Red" 
+                    IsVisible="{Binding Errors[Date], Converter={StaticResource StringToBoolConverter}}" />
+                <Label
+                    Text="Start time"/>
+                <TimePicker
+                    Time="{Binding StartTime}"></TimePicker>
+                <Label 
+                    Text="{Binding Errors[StartTime]}" 
+                    TextColor="Red" 
+                    IsVisible="{Binding Errors[StartTime], Converter={StaticResource StringToBoolConverter}}" />
+                <Label
+                    Text="End time"/>
+                <TimePicker
+                    Time="{Binding EndTime}"></TimePicker>
+                <Label 
+                    Text="{Binding Errors[EndTime]}" 
+                    TextColor="Red" 
+                    IsVisible="{Binding Errors[EndTime], Converter={StaticResource StringToBoolConverter}}" />
+                <Label
+                    Text="Type"/>
+                <Picker
+                    ItemDisplayBinding="{Binding DisplayName}"
+                    ItemsSource="{Binding TypesOfLesson}"
+                    SelectedItem="{Binding TypeOfLesson}"
+                    Title="Select Lesson's type"></Picker>
+                <Label 
+                    Text="{Binding Errors[TypeOfLesson]}" 
+                    TextColor="Red" 
+                    IsVisible="{Binding Errors[TypeOfLesson], Converter={StaticResource StringToBoolConverter}}" />
+                <Label
+                    Text="Topic"/>
+                <Entry
+                    Placeholder="Enter topic"
+                    Text="{Binding Topic}"></Entry>
+                <Label 
+                    Text="{Binding Errors[Topic]}" 
+                    TextColor="Red" 
+                    IsVisible="{Binding Errors[Topic], Converter={StaticResource StringToBoolConverter}}" />
+                <Grid
+                    ColumnDefinitions="*,*" 
+                    ColumnSpacing="10"
+                    Padding="10">
+                    <Button
+                        Grid.Column="0"
+                        Text="Create Lesson"
+                        Command="{Binding CreateLessonCommand}"></Button>
+                    <Button
+                        Grid.Column="1"
+                        Text="Back"
+                        Command="{Binding BackCommand}"></Button>
+                </Grid>
+            </VerticalStackLayout>
+        </ScrollView>
+        <BoxView
+            IsVisible="{Binding IsBusy}"
+            BackgroundColor="Gray"
+            Opacity="0.2"
+            InputTransparent="False"/>
+        <ActivityIndicator
+            Color="Magenta"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"/>
+    </Grid>
+</ContentPage>

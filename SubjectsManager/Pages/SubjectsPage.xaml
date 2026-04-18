@@ -3,40 +3,60 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:SubjectsManager.Pages"
              xmlns:models="clr-namespace:SubjectsManager.DTOModels.Subject;assembly=SubjectsManager.DTOModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:vms="clr-namespace:SubjectsManager.ViewModels"
              x:Class="SubjectsManager.Pages.SubjectsPage"             
              x:DataType="vms:SubjectsViewModel"
-             Title="Subjects">
-    <CollectionView
-        ItemsSource="{Binding Path=Subjects}"
-        Margin="10"
-        SelectionMode="Single"
-        SelectedItem="{Binding CurrentSubject}"
-        SelectionChangedCommand="{Binding SubjectSelectedCommand}">
-        <CollectionView.ItemTemplate>
-            <DataTemplate
-                x:DataType="models:SubjectListDTO">
-                <Border
-                    Stroke="Magenta"
-                    Padding="10"
-                    Margin="0,10">
-                    <VerticalStackLayout>
-                        <Label
-                            Style="{StaticResource SubHeadline}">
-                            <Label.Text>
-                                <MultiBinding
-                                    StringFormat="{}{0} (Lessons: {1})">
-                                    <Binding Path="Name"></Binding>
-                                    <Binding Path="LessonsCount"></Binding>
-                                </MultiBinding>
-                            </Label.Text>
-                        </Label>
-                        <Label 
-                            Text="{Binding KnowledgeArea, Converter={StaticResource EnumToDisplayName}}"
-                            HorizontalOptions="Center"></Label>
-                    </VerticalStackLayout>
-                </Border>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+             Title="Subjects"
+             IsEnabled="{Binding IsNotBusy}">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior 
+            EventName="Appearing" 
+            Command="{Binding RefreshDataCommand}" />
+    </ContentPage.Behaviors>
+    <Grid>
+        <CollectionView
+            ItemsSource="{Binding Path=Subjects}"
+            Margin="10"
+            SelectionMode="Single"
+            SelectedItem="{Binding CurrentSubject}"
+            SelectionChangedCommand="{Binding GotoSubjectCommand}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate
+                    x:DataType="models:SubjectListDTO">
+                    <Border
+                        Stroke="Magenta"
+                        Padding="10"
+                        Margin="0,10">
+                        <VerticalStackLayout>
+                            <Label
+                                Style="{StaticResource SubHeadline}">
+                                <Label.Text>
+                                    <MultiBinding
+                                        StringFormat="{}{0} (Lessons: {1})">
+                                        <Binding Path="Name"></Binding>
+                                        <Binding Path="LessonsCount"></Binding>
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
+                            <Label 
+                                Text="{Binding KnowledgeArea, Converter={StaticResource EnumToDisplayName}}"
+                                HorizontalOptions="Center"></Label>
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <BoxView
+                IsVisible="{Binding IsBusy}"
+                BackgroundColor="Gray"
+                Opacity="0.2"
+                InputTransparent="False"/>
+        <ActivityIndicator
+                Color="Magenta"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"/>
+    </Grid>
 </ContentPage>

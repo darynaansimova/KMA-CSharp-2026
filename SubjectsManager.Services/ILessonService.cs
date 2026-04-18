@@ -9,7 +9,9 @@ namespace SubjectsManager.Services
 {
     public interface ILessonService
     {
-        IEnumerable<LessonListDTO> GetLessonsBySubject(Guid subjectId);
-        LessonDetailsDTO GetLesson(Guid lessonId);
+        Task<IEnumerable<LessonListDTO>> GetLessonsBySubjectAsync(Guid subjectId);
+        Task<LessonDetailsDTO> GetLessonAsync(Guid lessonId);
+        Task CreateLessonAsync(LessonCreateDTO lesson);
+        Task DeleteLessonAsync(Guid lessonId);
     }
 }

@@ -9,7 +9,9 @@ namespace SubjectsManager.Repositories
 {
     public interface ISubjectRepository
     {
-        IEnumerable<SubjectDBModel> GetSubjects();
-        SubjectDBModel GetSubject(Guid subjectGuid);
+        IAsyncEnumerable<SubjectDBModel> GetSubjectsAsync();
+        Task<SubjectDBModel> GetSubjectAsync(Guid subjectId);
+        Task SaveSubjectAsync(SubjectDBModel subject);
+        Task DeleteSubjectAsync(Guid subjectId);
     }
 }

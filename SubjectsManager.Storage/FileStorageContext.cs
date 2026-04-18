@@ -15,6 +15,8 @@ namespace SubjectsManager.Storage
 
         private async Task Init()
         {
+            System.Diagnostics.Debug.WriteLine($"\n\n=== MY DATABASE PATH: {DatabasePath} ===\n\n");
+
             if (!Directory.Exists(DatabasePath))
                 await CreateMockStorage();
         }
@@ -133,6 +135,24 @@ namespace SubjectsManager.Storage
                     return;
                 }
             }
+        }
+
+        public async Task SaveSubjectAsync(SubjectDBModel subject)
+        {
+            await Init();
+            var filePath = SubjectFilePath(subject.Id);
+            await File.WriteAllTextAsync(filePath, JsonSerializer.Serialize(subject));
+        }
+
+        public async Task DeleteSubjectAsync(Guid subjectId)
+        {
+            await Init();
+            var filePath = SubjectFilePath(subjectId);
+            if (File.Exists(filePath))
+                File.Delete(filePath);
+            var subjectDirectory = SubjectDirectoryPath(subjectId);
+            if (Directory.Exists(subjectDirectory))
+                Directory.Delete(subjectDirectory, true);
         }
     }
 }

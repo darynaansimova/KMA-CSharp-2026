@@ -9,8 +9,10 @@ namespace SubjectsManager.Repositories
 {
     public interface ILessonRepository
     {
-        IEnumerable<LessonDBModel> GetLessonsBySubject(Guid id);
-        LessonDBModel GetLesson(Guid lessonId);
-        int GetLessonsBySubjectCount(Guid id);
+        Task<IEnumerable<LessonDBModel>> GetLessonsBySubjectAsync(Guid id);
+        Task<LessonDBModel> GetLessonAsync(Guid lessonId);
+        Task<int> GetLessonsCountBySubjectAsync(Guid id);
+        Task SaveLessonAsync(LessonDBModel lesson);
+        Task DeleteLessonAsync(Guid lessonId);
     }
 }

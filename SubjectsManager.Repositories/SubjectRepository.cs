@@ -16,13 +16,21 @@ namespace SubjectsManager.Repositories
             _storageContext = storageContext;
         }
 
-        public IEnumerable<SubjectDBModel> GetSubjects()
+        public IAsyncEnumerable<SubjectDBModel> GetSubjectsAsync()
         {
-            return _storageContext.GetSubjects();
+            return _storageContext.GetSubjectsAsync();
         }
-        public SubjectDBModel GetSubject(Guid subjectGuid)
+        public Task<SubjectDBModel> GetSubjectAsync(Guid subjectGuid)
         {
-            return _storageContext.GetSubject(subjectGuid);
+            return _storageContext.GetSubjectAsync(subjectGuid);
+        }
+        public Task SaveSubjectAsync(SubjectDBModel subject)
+        {
+            return _storageContext.SaveSubjectAsync(subject);
+        }
+        public Task DeleteSubjectAsync(Guid subjectGuid)
+        {
+            return _storageContext.DeleteSubjectAsync(subjectGuid);
         }
     }
 }

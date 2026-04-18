@@ -16,19 +16,29 @@ namespace SubjectsManager.Repositories
             _storageContext = storageContext;
         }
 
-        public IEnumerable<LessonDBModel> GetLessonsBySubject(Guid id)
+        public Task<IEnumerable<LessonDBModel>> GetLessonsBySubjectAsync(Guid id)
         {
-            return _storageContext.GetLessonsBySubject(id);
+            throw new NotImplementedException();
+            return _storageContext.GetLessonsBySubjectAsync(id);
         }
 
-        public LessonDBModel GetLesson(Guid lessonId)
+        public Task<LessonDBModel> GetLessonAsync(Guid lessonId)
         {
-            return _storageContext.GetLesson(lessonId);
+            return _storageContext.GetLessonAsync(lessonId);
         }
 
-        public int GetLessonsBySubjectCount(Guid id)
+        public Task<int> GetLessonsCountBySubjectAsync(Guid id)
         {
-            return _storageContext.GetLessonsCountBySubject(id);
+            return _storageContext.GetLessonsCountBySubjectAsync(id);
+        }
+        public Task SaveLessonAsync(LessonDBModel lesson)
+        {
+            return _storageContext.SaveLessonAsync(lesson);
+        }
+
+        public Task DeleteLessonAsync(Guid lessonId)
+        {
+            return _storageContext.DeleteLessonAsync(lessonId);
         }
     }
 }

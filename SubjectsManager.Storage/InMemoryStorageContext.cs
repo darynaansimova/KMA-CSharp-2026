@@ -165,5 +165,32 @@ namespace SubjectsManager.Storage
                 }
             });
         }
+        public Task SaveSubjectAsync(SubjectDBModel subject)
+        {
+            return Task.Run(() =>
+            {
+                Thread.Sleep(500);
+                var existing = _subjects.FirstOrDefault(s => s.Id == subject.Id);
+                if (existing != null)
+                {
+                    _subjects.Remove(existing);
+                }
+                _subjects.Add(new SubjectRecord(subject.Id, subject.Name, subject.KnowledgeArea, subject.EctsCredits));
+            });
+        }
+
+        public Task DeleteSubjectAsync(Guid subjectId)
+        {
+            return Task.Run(() =>
+            {
+                Thread.Sleep(500);
+                var existing = _subjects.FirstOrDefault(s => s.Id == subjectId);
+                if (existing != null)
+                {
+                    _subjects.Remove(existing);
+                    _lessons.RemoveAll(l => l.SubjectId == subjectId);
+                }
+            });
+        }
     }
 }
