@@ -4,4 +4,5 @@
              xmlns:converters="clr-namespace:SubjectsManager.Tools.Converters"
              x:Class="SubjectsManager.Resources.Tools.Converters">
     <converters:EnumToDisplayNameConverter x:Key="EnumToDisplayName" />
+    <converters:StringToBoolConverter x:Key="StringToBoolConverter" />
 </ResourceDictionary>
