@@ -49,7 +49,7 @@ namespace SubjectsManager.ViewModels
             IsBusy = true;
             try
             {
-                MainThread.BeginInvokeOnMainThread(() => _allSubjects.Clear());
+                _allSubjects.Clear();
 
                 await foreach (var subject in _subjectService.GetAllSubjectsAsync())
                 {

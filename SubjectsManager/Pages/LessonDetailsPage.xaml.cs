@@ -10,7 +10,12 @@ public partial class LessonDetailsPage : ContentPage
     public LessonDetailsPage(LessonDetailsViewModel vm)
     {
         InitializeComponent();
-        Loaded += async (s, e) => await ((LessonDetailsViewModel)BindingContext).RefreshDataCommand.ExecuteAsync(null);
         BindingContext = vm;
+    }
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        if (BindingContext is LessonDetailsViewModel vm)
+            vm.RefreshDataCommand.Execute(null);
     }
 }

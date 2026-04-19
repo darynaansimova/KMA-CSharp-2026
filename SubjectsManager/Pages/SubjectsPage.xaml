@@ -9,13 +9,6 @@
              x:DataType="vms:SubjectsViewModel"
              Title="Subjects"
              IsEnabled="{Binding IsNotBusy}">
-
-    <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior 
-            EventName="Appearing" 
-            Command="{Binding RefreshDataCommand}" />
-    </ContentPage.Behaviors>
-
     <Grid RowDefinitions="Auto, Auto, *, Auto">
         <SearchBar 
             Grid.Row="0"

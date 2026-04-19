@@ -10,7 +10,12 @@ public partial class SubjectDetailsPage : ContentPage
     public SubjectDetailsPage(SubjectDetailsViewModel vm)
     {
         InitializeComponent();
-        Loaded += async (s, e) => await ((SubjectDetailsViewModel)BindingContext).RefreshDataCommand.ExecuteAsync(null);
         BindingContext = vm;
+    }
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        if (BindingContext is SubjectDetailsViewModel vm)
+            vm.RefreshDataCommand.Execute(null);
     }
 }

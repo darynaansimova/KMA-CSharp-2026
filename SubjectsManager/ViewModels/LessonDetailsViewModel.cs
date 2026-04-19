@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using SubjectsManager.CommonComponents;
 using SubjectsManager.DTOModels.Lesson;
+using SubjectsManager.Pages;
 using SubjectsManager.Services;
 
 namespace SubjectsManager.ViewModels
@@ -65,6 +66,13 @@ namespace SubjectsManager.ViewModels
                 end = end.Add(TimeSpan.FromDays(1)); // Handle overnight lessons
 
             _duration = (int)(end - start).TotalMinutes;
+        }
+
+        [RelayCommand]
+        private async Task EditLesson()
+        {
+            await Shell.Current.GoToAsync(nameof(LessonEditPage),
+                new Dictionary<string, object> { { "LessonId", _lessonId } });
         }
     }
 }

@@ -4,21 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using SubjectsManager.DBModels;
 using Microsoft.Maui.Storage;
+using SQLite;
+using SubjectsManager.DBModels;
 
 namespace SubjectsManager.Storage
 {
     public class FileStorageContext : IStorageContext
     {
         private static readonly string DatabasePath = Path.Combine(FileSystem.AppDataDirectory, "File storage");
-
+        private bool _isInitialized;
+        
         private async Task Init()
         {
-            System.Diagnostics.Debug.WriteLine($"\n\n=== MY DATABASE PATH: {DatabasePath} ===\n\n");
+            if (_isInitialized) return;
+            var directory = Path.GetDirectoryName(DatabasePath);
 
-            if (!Directory.Exists(DatabasePath))
+            if (!Directory.Exists(directory))
                 await CreateMockStorage();
+
+            _isInitialized = true;
+
         }
 
         private async Task CreateMockStorage()
