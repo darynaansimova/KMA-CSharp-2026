@@ -39,42 +39,51 @@ namespace SubjectsManager.ViewModels
         {
             IsBusy = true;
 
-            var errors = Validators.ValidateSubject(Name, KnowledgeArea?.Value, EctsCredits);
-            Errors = InitErrors();
-
-            if (errors.Count > 0)
-            {
-                foreach (var error in errors)
-                {
-                    if (!Errors.ContainsKey(error.MemberName))
-                    {
-                        Errors[error.MemberName] = error.ErrorMessage;
-                    }
-                    else if (string.IsNullOrWhiteSpace(Errors[error.MemberName]))
-                    {
-                        Errors[error.MemberName] = error.ErrorMessage;
-                        continue;
-                    }
-                    else
-                    {
-                        Errors[error.MemberName] += Environment.NewLine + error.ErrorMessage;
-                    }
-                }
-
-                OnPropertyChanged(nameof(Errors));
-                IsBusy = false;
-                return;
-            }
-
             try
             {
+                var errors = Validators.ValidateSubject(Name, KnowledgeArea?.Value, EctsCredits);
+                Errors = InitErrors();
+
+                if (errors.Count > 0)
+                {
+                    foreach (var error in errors)
+                    {
+                        if (!string.IsNullOrEmpty(error.MemberName))
+                        {
+                            if (!Errors.ContainsKey(error.MemberName) || string.IsNullOrWhiteSpace(Errors[error.MemberName]))
+                            {
+                                Errors[error.MemberName] = error.ErrorMessage ?? "Invalid input";
+                            }
+                            else
+                            {
+                                Errors[error.MemberName] += Environment.NewLine + error.ErrorMessage;
+                            }
+                        }
+                    }
+
+                    OnPropertyChanged(nameof(Errors));
+                    return;
+                }
+
+                if (KnowledgeArea == null || EctsCredits == null || string.IsNullOrWhiteSpace(Name))
+                {
+                    if (Application.Current?.MainPage != null)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Validation Error", "Please ensure all required fields are filled out.", "OK");
+                    }
+                    return;
+                }
+
                 var newSubject = new SubjectCreateDTO(Name, KnowledgeArea.Value, EctsCredits.Value);
                 await _subjectService.CreateSubjectAsync(newSubject);
                 await Shell.Current.GoToAsync("..");
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", $"Failed to create subject: {ex.Message}", "OK");
+                if (Application.Current?.MainPage != null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", $"Failed to create subject: {ex.Message}", "OK");
+                }
             }
             finally
             {

@@ -26,12 +26,27 @@ namespace SubjectsManager.Services
         public async Task<LessonDetailsDTO> GetLessonAsync(Guid lessonId)
         {
             var lesson = await _lessonRepository.GetLessonAsync(lessonId);
-            return lesson is null ? null : new LessonDetailsDTO(lesson.Id, lesson.Date, lesson.StartTime, lesson.EndTime, lesson.Topic, lesson.Type);
+            return lesson is null ? null : new LessonDetailsDTO(lesson.Id, lesson.SubjectId, lesson.Date, lesson.StartTime, lesson.EndTime, lesson.Topic, lesson.Type);
         }
         public async Task CreateLessonAsync(LessonCreateDTO lessonCreateDTO)
         {
             var newLesson = new LessonDBModel(lessonCreateDTO.SubjectId, lessonCreateDTO.Date, lessonCreateDTO.StartTime, lessonCreateDTO.EndTime, lessonCreateDTO.Topic, lessonCreateDTO.Type);
             await _lessonRepository.SaveLessonAsync(newLesson);
+        }
+
+        public async Task UpdateLessonAsync(LessonUpdateDTO lessonUpdateDTO)
+        {
+            var existingLesson = await _lessonRepository.GetLessonAsync(lessonUpdateDTO.Id);
+            if (existingLesson is null)
+            {
+                throw new Exception("Lesson does not exist.");
+            }
+            existingLesson.Date = lessonUpdateDTO.Date;
+            existingLesson.StartTime = lessonUpdateDTO.StartTime;
+            existingLesson.EndTime = lessonUpdateDTO.EndTime;
+            existingLesson.Topic = lessonUpdateDTO.Topic;
+            existingLesson.Type = lessonUpdateDTO.Type;
+            await _lessonRepository.SaveLessonAsync(existingLesson);
         }
 
         public Task DeleteLessonAsync(Guid lessonId)

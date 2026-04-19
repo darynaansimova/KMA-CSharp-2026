@@ -13,6 +13,7 @@ namespace SubjectsManager.Services
         IAsyncEnumerable<SubjectListDTO> GetAllSubjectsAsync();
         Task<SubjectDetailsDTO> GetSubjectAsync(Guid subjectId);
         Task CreateSubjectAsync(SubjectCreateDTO subject);
+        Task UpdateSubjectAsync(SubjectUpdateDTO subject);
         Task DeleteSubjectAsync(Guid subjectId);
     }
 }

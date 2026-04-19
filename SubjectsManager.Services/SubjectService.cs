@@ -41,6 +41,17 @@ namespace SubjectsManager.Services
             await _subjectRepository.SaveSubjectAsync(newSubject);
         }
 
+        public async Task UpdateSubjectAsync(SubjectUpdateDTO subjectUpdateDTO)
+        {
+            var existingSubject = await _subjectRepository.GetSubjectAsync(subjectUpdateDTO.Id);
+            if (existingSubject is null)
+                throw new Exception("Subject not found");
+            existingSubject.Name = subjectUpdateDTO.Name;
+            existingSubject.EctsCredits = subjectUpdateDTO.EctsCredits;
+            existingSubject.KnowledgeArea = subjectUpdateDTO.KnowledgeArea;
+            await _subjectRepository.SaveSubjectAsync(existingSubject);
+        }
+
         public Task DeleteSubjectAsync(Guid subjectId)
         {
             return _subjectRepository.DeleteSubjectAsync(subjectId);

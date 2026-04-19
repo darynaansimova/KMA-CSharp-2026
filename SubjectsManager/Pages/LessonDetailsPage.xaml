@@ -39,7 +39,7 @@
                 <Label
                     Text="Duration"/>
                 <Label
-                    Text="{Binding Duration, StringFormat='{}{0:hh} h {0:mm} m'}"
+                    Text="{Binding Duration, StringFormat='{}{0} min'}"
                     Margin="10,0"></Label>
             </VerticalStackLayout>
         </ScrollView>

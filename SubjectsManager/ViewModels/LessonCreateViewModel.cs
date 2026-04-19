@@ -49,32 +49,57 @@ namespace SubjectsManager.ViewModels
         public async Task CreateLesson()
         {
             IsBusy = true;
-            var errors = Validators.ValidateLesson(Date, StartTime, EndTime, Topic, TypeOfLesson?.Value);
-            Errors = InitErrors();
-            if (errors.Count > 0)
-            {
-                foreach (var error in errors)
-                {
-                    if (String.IsNullOrWhiteSpace(Errors[error.MemberName]))
-                    {
-                        Errors[error.MemberName] = error.ErrorMessage;
-                        continue;
-                    }
-                    Errors[error.MemberName] += Environment.NewLine + error.ErrorMessage;
-                }
-                OnPropertyChanged(nameof(Errors));
-                IsBusy = false;
-                return;
-            }
+
             try
             {
+                var errors = Validators.ValidateLesson(Date, StartTime, EndTime, Topic, TypeOfLesson?.Value);
+                Errors = InitErrors();
+
+                bool hasErrors = errors.Count > 0;
+
+                // 1. Process standard validation errors first
+                if (hasErrors)
+                {
+                    foreach (var error in errors)
+                    {
+                        if (!string.IsNullOrEmpty(error.MemberName) && Errors.ContainsKey(error.MemberName))
+                        {
+                            if (string.IsNullOrWhiteSpace(Errors[error.MemberName]))
+                            {
+                                Errors[error.MemberName] = error.ErrorMessage ?? "Invalid input";
+                            }
+                            else
+                            {
+                                Errors[error.MemberName] += Environment.NewLine + error.ErrorMessage;
+                            }
+                        }
+                    }
+                }
+
+                // 2. Manually catch the null dropdown and add it to the inline errors dictionary
+                if (TypeOfLesson == null)
+                {
+                    Errors[nameof(TypeOfLesson)] = "Please select a lesson type.";
+                    hasErrors = true;
+                }
+
+                // 3. If there are ANY errors (from validator or the manual dropdown check), update UI and exit
+                if (hasErrors)
+                {
+                    OnPropertyChanged(nameof(Errors));
+                    return;
+                }
+
                 var newLesson = new LessonCreateDTO(_subjectId, Date, StartTime, EndTime, Topic, TypeOfLesson.Value);
                 await _lessonService.CreateLessonAsync(newLesson);
                 await Shell.Current.GoToAsync("..");
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", $"Failed to create lesson: {ex.Message}", "OK");
+                if (Application.Current?.MainPage != null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", $"Failed to process lesson: {ex.Message}", "OK");
+                }
             }
             finally
             {

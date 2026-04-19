@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -15,35 +16,49 @@ namespace SubjectsManager.ViewModels
     {
         private readonly ISubjectService _subjectService;
 
+        private List<SubjectListDTO> _allSubjects = new();
+
         [ObservableProperty]
-        private ObservableCollection<SubjectListDTO> _subjects = new();
+        private ObservableCollection<SubjectListDTO> _subjects;
         [ObservableProperty]
         private SubjectListDTO _currentSubject;
+        [ObservableProperty]
+        private string _searchText = string.Empty;
 
-        public SubjectsViewModel(ISubjectService subjectService)
+        partial void OnSearchTextChanged(string value) => ApplyFiltersAndSort();
+
+        private string _currentSortColumn = "Name";
+        private bool _sortAscending = true;
+
+        [RelayCommand]
+        private void Sort(string columnName)
         {
-            _subjectService = subjectService;
+            if (_currentSortColumn == columnName)
+                _sortAscending = !_sortAscending;
+            else
+            {
+                _currentSortColumn = columnName;
+                _sortAscending = true;
+            }
+            ApplyFiltersAndSort();
         }
 
         [RelayCommand]
         public async Task RefreshData()
         {
-            // Let's add a temporary alert just to PROVE this command is actually firing!
-            // You can delete this line once you confirm it works.
-            await Application.Current.MainPage.DisplayAlert("Debug", "RefreshData is firing!", "OK");
-
             IsBusy = true;
             try
             {
-                MainThread.BeginInvokeOnMainThread(() => Subjects.Clear());
+                MainThread.BeginInvokeOnMainThread(() => _allSubjects.Clear());
 
                 await foreach (var subject in _subjectService.GetAllSubjectsAsync())
                 {
                     MainThread.BeginInvokeOnMainThread(() =>
                     {
-                        Subjects.Add(subject);
+                        _allSubjects.Add(subject);
                     });
                 }
+                ApplyFiltersAndSort();
             }
             catch (Exception ex)
             {
@@ -53,6 +68,28 @@ namespace SubjectsManager.ViewModels
             {
                 IsBusy = false;
             }
+        }
+
+        private void ApplyFiltersAndSort()
+        {
+            var filtered = _allSubjects.AsEnumerable();
+
+            if (!string.IsNullOrWhiteSpace(SearchText))
+            {
+                filtered = filtered.Where(s => s.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (_currentSortColumn == "Name")
+                filtered = _sortAscending ? filtered.OrderBy(s => s.Name) : filtered.OrderByDescending(s => s.Name);
+            else if (_currentSortColumn == "LessonsCount")
+                filtered = _sortAscending ? filtered.OrderBy(s => s.LessonsCount) : filtered.OrderByDescending(s => s.LessonsCount);
+
+            Subjects = new ObservableCollection<SubjectListDTO>(filtered);
+        }
+
+        public SubjectsViewModel(ISubjectService subjectService)
+        {
+            _subjectService = subjectService;
         }
 
         [RelayCommand]
@@ -70,6 +107,60 @@ namespace SubjectsManager.ViewModels
             catch (Exception ex)
             {
                 await Application.Current.MainPage.DisplayAlert("Error", $"Failed to navigate to subject details: {ex.Message}", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        [RelayCommand]
+        private async Task AddSubject()
+        {
+            IsBusy = true;
+            try
+            {
+                await Shell.Current.GoToAsync($"{nameof(SubjectCreatePage)}", new Dictionary<string, object> { });
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", $"Failed to navigate to subject create page: {ex.Message}", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        [RelayCommand]
+        public async Task EditSubject(SubjectListDTO subject)
+        {
+            if (subject == null) return;
+
+            var navigationParameter = new Dictionary<string, object>
+            {
+                { "SubjectId", subject.Id }
+            };
+
+            await Shell.Current.GoToAsync(nameof(SubjectEditPage), navigationParameter);
+        }
+
+        [RelayCommand]
+        private async Task DeleteSubject(SubjectListDTO subject)
+        {
+            IsBusy = true;
+            try
+            {
+                if (await Application.Current.MainPage.DisplayAlert("Confirm", "Are you sure you want to delete this subject?", "Yes", "No"))
+                {
+                    await _subjectService.DeleteSubjectAsync(subject.Id);
+                    _allSubjects.RemoveAll(s => s.Id == subject.Id);
+                    ApplyFiltersAndSort();
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", $"Failed to delete subject: {ex.Message}", "OK");
             }
             finally
             {

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:SubjectsManager.Pages"
+             xmlns:models="clr-namespace:SubjectsManager.DTOModels.Subject;assembly=SubjectsManager.DTOModels"
+             xmlns:vms="clr-namespace:SubjectsManager.ViewModels"
+             x:Class="SubjectsManager.Pages.SubjectEditPage"
+             x:DataType="vms:SubjectEditViewModel"
+             Title="Subject Edit Page"
+             IsEnabled="{Binding IsNotBusy}">
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="10,20" Spacing="10">
+                <Label
+                    Text="Name"/>
+                <Entry
+                    Placeholder="Enter name"
+                    Text="{Binding Name}"></Entry>
+                <Label 
+                    Text="{Binding Errors[Name]}" 
+                    TextColor="Red" 
+                    IsVisible="{Binding Errors[Name], Converter={StaticResource StringToBoolConverter}}" />
+                <Label
+                    Text="Area of knowledge"/>
+                <Picker
+                    ItemDisplayBinding="{Binding DisplayName}"
+                    ItemsSource="{Binding KnowledgeAreaOptions}"
+                    SelectedItem="{Binding KnowledgeArea}"
+                    Title="Select Area of Knowledge"></Picker>
+                <Label 
+                    Text="{Binding Errors[KnowledgeArea]}" 
+                    TextColor="Red" 
+                    IsVisible="{Binding Errors[KnowledgeArea], Converter={StaticResource StringToBoolConverter}}" />
+                <Label
+                    Text="ECTS Credits:"/>
+                <Entry
+                    Placeholder="Enter ECTS Credits"
+                    Keyboard="Numeric"
+                    Text="{Binding EctsCredits}"></Entry>
+                <Label 
+                    Text="{Binding Errors[EctsCredits]}" 
+                    TextColor="Red" 
+                    IsVisible="{Binding Errors[EctsCredits], Converter={StaticResource StringToBoolConverter}}" />
+                <Grid
+                    ColumnDefinitions="*,*" 
+                    ColumnSpacing="10"
+                    Padding="10">
+                    <Button
+                        Grid.Column="0"
+                        Text="Edit Subject"
+                        Command="{Binding SaveSubjectCommand}"></Button>
+                    <Button
+                        Grid.Column="1"
+                        Text="Back"
+                        Command="{Binding BackCommand}"></Button>
+                </Grid>
+            </VerticalStackLayout>
+        </ScrollView>
+        <BoxView
+            IsVisible="{Binding IsBusy}"
+            BackgroundColor="Gray"
+            Opacity="0.2"
+            InputTransparent="False"/>
+        <ActivityIndicator
+            Color="Magenta"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"/>
+    </Grid>
+</ContentPage>

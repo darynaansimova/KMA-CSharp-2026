@@ -1,4 +1,5 @@
 ﻿using System;
+using SQLite;
 using SubjectsManager.CommonComponents;
 
 namespace SubjectsManager.DBModels
@@ -8,6 +9,7 @@ namespace SubjectsManager.DBModels
     /// </summary>
     public class LessonDBModel
     {
+        [PrimaryKey]
         public Guid Id { get; set; }
         // Зв'язок з предметом реалізовано через зовнішній ключ, без прямого посилання на об'єкт
         public Guid SubjectId { get; init; }
@@ -24,7 +26,13 @@ namespace SubjectsManager.DBModels
 
         public LessonDBModel(Guid subjectId, DateTime date, TimeSpan startTime, TimeSpan endTime, string topic, LessonType type) : this(Guid.NewGuid(), subjectId, date, startTime, endTime, topic, type)
         {
-
+            Id = Guid.NewGuid();
+            SubjectId = subjectId;
+            Date = date;
+            StartTime = startTime;
+            EndTime = endTime;
+            Topic = topic;
+            Type = type;
         }
 
         public LessonDBModel(Guid id, Guid subjectId, DateTime date, TimeSpan startTime, TimeSpan endTime, string topic, LessonType type)

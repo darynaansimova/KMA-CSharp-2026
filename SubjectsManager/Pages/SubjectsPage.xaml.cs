@@ -13,6 +13,7 @@ public partial class SubjectsPage : ContentPage
     public SubjectsPage(SubjectsViewModel vm)
     {
         InitializeComponent();
+        Loaded += async (s, e) => await ((SubjectsViewModel)BindingContext).RefreshDataCommand.ExecuteAsync(null);
         BindingContext = vm;
     }
 }

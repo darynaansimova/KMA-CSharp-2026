@@ -44,12 +44,16 @@ namespace SubjectsManager
             builder.Services.AddTransient<LessonDetailsPage>();
             builder.Services.AddTransient<SubjectCreatePage>();
             builder.Services.AddTransient<LessonCreatePage>();
+            builder.Services.AddTransient<SubjectEditPage>();
+            builder.Services.AddTransient<LessonEditPage>();
 
             builder.Services.AddSingleton<SubjectsViewModel>();
             builder.Services.AddTransient<SubjectDetailsViewModel>();
             builder.Services.AddTransient<LessonDetailsViewModel>();
             builder.Services.AddTransient<LessonCreateViewModel>();
             builder.Services.AddTransient<SubjectCreateViewModel>();
+            builder.Services.AddTransient<SubjectEditViewModel>();
+            builder.Services.AddTransient<LessonEditViewModel>();
 
             return builder.Build();
         }

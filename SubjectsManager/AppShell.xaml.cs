@@ -7,9 +7,13 @@ namespace SubjectsManager
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute($"{nameof(SubjectsPage)}/{nameof(SubjectDetailsPage)}", typeof(SubjectDetailsPage));
-            Routing.RegisterRoute($"{nameof(SubjectsPage)}/{nameof(SubjectDetailsPage)}/{nameof(LessonDetailsPage)}", typeof(LessonDetailsPage));
-            Routing.RegisterRoute($"{nameof(SubjectsPage)}/{nameof(SubjectDetailsPage)}/{nameof(LessonCreatePage)}", typeof(LessonCreatePage));
+
+            Routing.RegisterRoute(nameof(SubjectDetailsPage), typeof(SubjectDetailsPage));
+            Routing.RegisterRoute(nameof(SubjectCreatePage), typeof(SubjectCreatePage));
+            Routing.RegisterRoute(nameof(LessonDetailsPage), typeof(LessonDetailsPage));
+            Routing.RegisterRoute(nameof(LessonCreatePage), typeof(LessonCreatePage));
+            Routing.RegisterRoute(nameof(SubjectEditPage), typeof(SubjectEditPage));
+            Routing.RegisterRoute(nameof(LessonEditPage), typeof(LessonEditPage));
         }
     }
 }

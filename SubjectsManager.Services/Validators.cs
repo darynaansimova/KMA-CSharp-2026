@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using SubjectsManager.CommonComponents;
 using SubjectsManager.DTOModels.Lesson;
 using SubjectsManager.DTOModels.Subject;
-// using SubjectsManager.DTOModels.Subject;
 
 namespace SubjectsManager.Services
 {
@@ -36,7 +35,7 @@ namespace SubjectsManager.Services
 
             if (type == null)
             {
-                errors.Add(new ValidationError("Lesson type must be selected.", nameof(LessonCreateDTO.Type))); // Assuming 'Type' is the DTO property name
+                errors.Add(new ValidationError("Lesson type must be selected.", nameof(LessonCreateDTO.Type)));
             }
 
             if (startTime.HasValue && endTime.HasValue)

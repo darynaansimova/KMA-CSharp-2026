@@ -18,7 +18,6 @@ namespace SubjectsManager.Repositories
 
         public Task<IEnumerable<LessonDBModel>> GetLessonsBySubjectAsync(Guid id)
         {
-            throw new NotImplementedException();
             return _storageContext.GetLessonsBySubjectAsync(id);
         }
 

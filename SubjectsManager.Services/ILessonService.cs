@@ -12,6 +12,7 @@ namespace SubjectsManager.Services
         Task<IEnumerable<LessonListDTO>> GetLessonsBySubjectAsync(Guid subjectId);
         Task<LessonDetailsDTO> GetLessonAsync(Guid lessonId);
         Task CreateLessonAsync(LessonCreateDTO lesson);
+        Task UpdateLessonAsync(LessonUpdateDTO lesson);
         Task DeleteLessonAsync(Guid lessonId);
     }
 }

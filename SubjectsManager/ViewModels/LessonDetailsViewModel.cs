@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using SubjectsManager.CommonComponents;
 using SubjectsManager.DTOModels.Lesson;
 using SubjectsManager.Services;
@@ -28,6 +29,7 @@ namespace SubjectsManager.ViewModels
             _lessonId = (Guid)query["LessonId"];
         }
 
+        [RelayCommand]
         internal async Task RefreshData()
         {
             IsBusy = true;

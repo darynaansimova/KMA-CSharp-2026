@@ -1,4 +1,5 @@
 ﻿using System;
+using SQLite;
 using SubjectsManager.CommonComponents;
 
 namespace SubjectsManager.DBModels
@@ -8,6 +9,7 @@ namespace SubjectsManager.DBModels
     /// </summary>
     public class SubjectDBModel
     {
+        [PrimaryKey]
         public Guid Id { get; set; }
         public string Name { get; set; }
         public int EctsCredits { get; set; }
@@ -20,7 +22,10 @@ namespace SubjectsManager.DBModels
 
         public SubjectDBModel(string name, int ectsCredits, KnowledgeArea knowledgeArea) : this(Guid.NewGuid(), name, ectsCredits, knowledgeArea)
         {
-
+            Id = Guid.NewGuid();
+            Name = name;
+            EctsCredits = ectsCredits;
+            KnowledgeArea = knowledgeArea;
         }
 
         public SubjectDBModel(Guid id, string name, int ectsCredits, KnowledgeArea knowledgeArea)
